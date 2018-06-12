@@ -71,6 +71,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
       var stage = new PIXI.Container();
+      stage.interactive = true;
+
+      var handler = function(e){
+        mouseX = renderer.plugins.interaction.mouse.global.x;
+        mouseY = renderer.plugins.interaction.mouse.global.y;
+      }
+
+      stage.on("pointermove", handler);
+
       var renderer = PIXI.autoDetectRenderer(512, 512);
       document.body.appendChild(renderer.view);
 
@@ -92,8 +101,8 @@
 
           // add new ripple each time mouse is clicked
           renderer.view.addEventListener('eventClick', function(ev) {
-             console.log(ev);
-              ripples.push(new Ripple(ev.clientX, ev.clientY));
+            console.log(mouseX);
+              ripples.push(new Ripple(mouseX, mouseY));
               stage.filters = ripples.map(function(f) { return f.filter; });
           }, false);
 
@@ -129,24 +138,29 @@
 
       var timer = null;
       var isIntervalSet = false;
-      $('body').on('mousemove', function(ev) {
+      var ev = null;
+      $('canvas').on('mousemove', function(ev) {
+        var myData = {
+          "clientX" : ev.pageX,
+          "clientY" : ev.pageY
+        }
           if (isIntervalSet) {
             return;
           }
+          //create object to execute every 2secs
           timer = window.setInterval(function(){
             var eventClick = new CustomEvent('eventClick');
-            eventClick.initCustomEvent("eventClick", true, true, ev)
             renderer.view.dispatchEvent(eventClick);
-
-           //renderer.view.mousedown();
-            console.log('moved');
           }, 2000);
           isIntervalSet = true;
-      }).mousestop(function(){
-        isIntervalSet = false;
-        window.clearTimeout(timer);
-        timer = null;
       });
+
+      // .mousestop(function(){
+      //   console.log('stopping');
+      //   isIntervalSet = false;
+      //   window.clearTimeout(timer);
+      //   timer = null;
+      // })
 
 
 
