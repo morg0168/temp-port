@@ -12,6 +12,13 @@
         top:0;
         left:0;
       }
+      .inner {
+        width:10vw;
+        height:10vw;
+        background:white;
+        position:relative;
+        z-index:99;
+      }
       h1 {
         margin:0;
         z-index:99;
@@ -66,6 +73,11 @@
     <!-- built files will be auto injected -->
     <!-- <h1 class="first">Emily</h1>
     <h1 class="last">Morgan</h1> -->
+    <div class="inner">
+      emily.<br>
+      web developer.
+      438.883.2055
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -73,19 +85,32 @@
       var stage = new PIXI.Container();
       stage.interactive = true;
 
+      //MOUSE POSITION HELPER
       var handler = function(e){
         mouseX = renderer.plugins.interaction.mouse.global.x;
         mouseY = renderer.plugins.interaction.mouse.global.y;
       }
-
       stage.on("pointermove", handler);
 
+      //MOUSE ON/OFF SCREEN HELPER
+      var mouseIn = false;
+      stage.on("mouseover", function(e){
+        console.log('over');
+        mouseIn = true;
+      });
+
+      stage.on("mouseout", function(e){
+        console.log('out');
+        mouseIn = false;
+      });
+
+      //CREATE PIXI CANVAS AND APPEND TO DOM
       var renderer = PIXI.autoDetectRenderer(512, 512);
       document.body.appendChild(renderer.view);
 
       // load assets
       PIXI.loader
-          .add("bunny.jpg")
+          .add("bunny2.jpg")
           .add("map.png")
           .load(setup);
 
@@ -93,7 +118,7 @@
 
       function setup() {
           // background
-          var bg = new PIXI.Sprite(PIXI.loader.resources["bunny.jpg"].texture);
+          var bg = new PIXI.Sprite(PIXI.loader.resources["bunny2.jpg"].texture);
           bg.anchor.set(0.5);
           bg.scale.set(0.4);
           bg.position.set(renderer.view.width/2, renderer.view.height/2);
@@ -102,8 +127,14 @@
           // add new ripple each time mouse is clicked
           renderer.view.addEventListener('eventClick', function(ev) {
             console.log(mouseX);
+            if (mouseIn){
               ripples.push(new Ripple(mouseX, mouseY));
+              console.log(ripples.length);
               stage.filters = ripples.map(function(f) { return f.filter; });
+
+              stage.filters.destroy();
+
+            }
           }, false);
 
           gameLoop();
@@ -133,7 +164,13 @@
 
       Ripple.prototype.update = function() {
           this.sprite.scale.x += 0.025;
+          if (this.sprite.scale.x == (0.025 * 10)) {
+            this.sprite.scale.x  = 0.1
+          }
           this.sprite.scale.y += 0.025;
+          if (this.sprite.scale.y == (0.025 * 10)) {
+            this.sprite.scale.y  = 0.1
+          }
       }
 
       var timer = null;
@@ -147,21 +184,14 @@
           if (isIntervalSet) {
             return;
           }
+          var random = Math.floor((Math.random() * 1000) + 500);
           //create object to execute every 2secs
           timer = window.setInterval(function(){
             var eventClick = new CustomEvent('eventClick');
             renderer.view.dispatchEvent(eventClick);
-          }, 2000);
+          }, random);
           isIntervalSet = true;
       });
-
-      // .mousestop(function(){
-      //   console.log('stopping');
-      //   isIntervalSet = false;
-      //   window.clearTimeout(timer);
-      //   timer = null;
-      // })
-
 
 
     </script>
