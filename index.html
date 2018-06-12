@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>workinprogress</title>
+    <style>
+      canvas {
+        width:100vw;
+        height:100vh;
+        position:absolute;
+        top:0;
+        left:0;
+      }
+      h1 {
+        margin:0;
+        z-index:99;
+        position:absolute;
+        font-family: sans-serif;
+        font-size:140px;
+        color:WHITE;
+         -webkit-text-stroke: 1px black;
+      text-shadow:
+       -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+         1px 1px 0 #000;
+         text-transform: uppercase;
+       }
+       .first {
+                 /* Safari */
+        -webkit-transform: rotate(-90deg);
+
+        /* Firefox */
+        -moz-transform: rotate(-90deg);
+
+        /* IE */
+        -ms-transform: rotate(-90deg);
+
+        /* Opera */
+        -o-transform: rotate(-90deg);
+
+        /* Internet Explorer */
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+      }
+      .last {
+        /* Safari */
+      -webkit-transform: rotate(90deg);
+
+      /* Firefox */
+      -moz-transform: rotate(90deg);
+
+      /* IE */
+      -ms-transform: rotate(90deg);
+
+      /* Opera */
+      -o-transform: rotate(90deg);
+
+      /* Internet Explorer */
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <!-- <h1 class="first">Emily</h1>
+    <h1 class="last">Morgan</h1> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      var stage = new PIXI.Container();
+      var renderer = PIXI.autoDetectRenderer(512, 512);
+      document.body.appendChild(renderer.view);
+
+      // load assets
+      PIXI.loader
+          .add("bunny.jpg")
+          .add("map.png")
+          .load(setup);
+
+      var ripples = [];
+
+      function setup() {
+          // background
+          var bg = new PIXI.Sprite(PIXI.loader.resources["bunny.jpg"].texture);
+          bg.anchor.set(0.5);
+          bg.scale.set(0.4);
+          bg.position.set(renderer.view.width/2, renderer.view.height/2);
+          stage.addChild(bg);
+
+          // add new ripple each time mouse is clicked
+          renderer.view.addEventListener('eventClick', function(ev) {
+             console.log(ev);
+              ripples.push(new Ripple(ev.clientX, ev.clientY));
+              stage.filters = ripples.map(function(f) { return f.filter; });
+          }, false);
+
+          gameLoop();
+      }
+
+      function gameLoop() {
+          requestAnimationFrame(gameLoop);
+
+          // update ripples
+          for(var i=0; i<ripples.length; i++) {
+              ripples[i].update();
+          }
+
+          renderer.render(stage);
+      }
+
+      function Ripple(x, y) {
+          // sprite
+          this.sprite = new PIXI.Sprite(PIXI.loader.resources["map.png"].texture);
+          this.sprite.anchor.set(0.5);
+          this.sprite.position.set(x, y);
+          this.sprite.scale.set(0.1);
+          stage.addChild(this.sprite);
+          // filter
+          this.filter = new PIXI.filters.DisplacementFilter(this.sprite);
+      }
+
+      Ripple.prototype.update = function() {
+          this.sprite.scale.x += 0.025;
+          this.sprite.scale.y += 0.025;
+      }
+
+      var timer = null;
+      var isIntervalSet = false;
+      $('body').on('mousemove', function(ev) {
+          if (isIntervalSet) {
+            return;
+          }
+          timer = window.setInterval(function(){
+            var eventClick = new CustomEvent('eventClick');
+            eventClick.initCustomEvent("eventClick", true, true, ev)
+            renderer.view.dispatchEvent(eventClick);
+
+           //renderer.view.mousedown();
+            console.log('moved');
+          }, 2000);
+          isIntervalSet = true;
+      }).mousestop(function(){
+        isIntervalSet = false;
+        window.clearTimeout(timer);
+        timer = null;
+      });
+
+
+
+    </script>
+  </body>
+</html>
