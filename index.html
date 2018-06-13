@@ -12,6 +12,23 @@
         top:0;
         left:0;
       }
+      .work-list {
+        height:auto;
+        position:absolute;
+        background:white;
+        color:black;
+        text-transform: uppercase;
+        text-align: end;
+        z-index:99;
+        font-family: sans-serif;
+        padding: 11px;
+        font-weight: 100;
+        text-align: end;
+        text-transform: uppercase;
+      }
+      .work-list img {
+        width:200px;
+      }
       .inner {
         width: 300px;
         height: auto;
@@ -87,11 +104,15 @@
     <h1 class="last">Morgan</h1> -->
     <div class="inner">
       <span class="bold">emily morgan</span><br>
-      web developer +<br/>
+      front-end web developer +<br/>
       user experience designer +<br>
       <span class="bold"> emily.a.morgan00@gmail.com</span><br>
       438.883.2055
     </div>
+
+
+    <!-- <div class="work-list">AMAIMMO - work 001<br/> VIEW LIVE<br/> DEV
+      <img src="bunny.jpg" alt=""/></div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -138,13 +159,13 @@
           bg.scale.set(0.5);
           bg.position.set(renderer.view.width/2, renderer.view.height/2);
           stage.addChild(bg);
+          var random;
+          var stageBounds = stage._bounds;
+          console.log(stageBounds);
 
           // add new ripple each time mouse is clicked
           renderer.view.addEventListener('eventClick', function(ev) {
             console.log(mouseX);
-            if (mouseIn){
-              //stage.filters = [];
-              //stage.filters[0].enabled = false;
               ripples.push(new Ripple(mouseX, mouseY));
               console.log(ripples.length);
               if (ripples.length > 6){
@@ -153,18 +174,15 @@
               stage.filters = ripples.map(function(f) { return f.filter; });
 
             } else {
-              // if (!newbg){
-              //   var newbg = new PIXI.Sprite(PIXI.loader.resources["bunny.jpg"].texture);
-              //   newbg.anchor.set(0.5);
-              //   newbg.scale.set(0.5);
-              //   newbg.position.set(renderer.view.width/2, renderer.view.height/2);
-              //   stage.addChild(newbg);
-              //   ripples = [];
-              //   stage.filters = [];
-              // } else {
-              //   stage.removeChild(newbg);
-              //   stage.addChild(bg);
-              // }
+              randomX = (Math.random() * (stageBounds.maxX)) + (stageBounds.minX);
+              randomY = (Math.random() * (stageBounds.maxY)) + (stageBounds.minY);
+              console.log(mouseX);
+              ripples.push(new Ripple(randomX, randomY));
+              console.log(ripples.length);
+              if (ripples.length > 6){
+                ripples.shift();
+              }
+              stage.filters = ripples.map(function(f) { return f.filter; });
 
             }
           }, false);
