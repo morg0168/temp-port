@@ -112,6 +112,7 @@
       PIXI.loader
           .add("bunny2.jpg")
           .add("map.png")
+          .add("bunny.jpg")
           .load(setup);
 
       var ripples = [];
@@ -120,7 +121,7 @@
           // background
           var bg = new PIXI.Sprite(PIXI.loader.resources["bunny2.jpg"].texture);
           bg.anchor.set(0.5);
-          bg.scale.set(0.4);
+          bg.scale.set(0.5);
           bg.position.set(renderer.view.width/2, renderer.view.height/2);
           stage.addChild(bg);
 
@@ -128,11 +129,28 @@
           renderer.view.addEventListener('eventClick', function(ev) {
             console.log(mouseX);
             if (mouseIn){
+              //stage.filters = [];
+              //stage.filters[0].enabled = false;
               ripples.push(new Ripple(mouseX, mouseY));
               console.log(ripples.length);
+              if (ripples.length > 6){
+                ripples.shift();
+              }
               stage.filters = ripples.map(function(f) { return f.filter; });
 
-              stage.filters.destroy();
+            } else {
+              // if (!newbg){
+              //   var newbg = new PIXI.Sprite(PIXI.loader.resources["bunny.jpg"].texture);
+              //   newbg.anchor.set(0.5);
+              //   newbg.scale.set(0.5);
+              //   newbg.position.set(renderer.view.width/2, renderer.view.height/2);
+              //   stage.addChild(newbg);
+              //   ripples = [];
+              //   stage.filters = [];
+              // } else {
+              //   stage.removeChild(newbg);
+              //   stage.addChild(bg);
+              // }
 
             }
           }, false);
@@ -165,17 +183,18 @@
       Ripple.prototype.update = function() {
           this.sprite.scale.x += 0.025;
           if (this.sprite.scale.x == (0.025 * 10)) {
-            this.sprite.scale.x  = 0.1
+            this.sprite.scale.x  = 0.1;
           }
           this.sprite.scale.y += 0.025;
           if (this.sprite.scale.y == (0.025 * 10)) {
-            this.sprite.scale.y  = 0.1
+            this.sprite.scale.y  = 0.1;
           }
       }
 
       var timer = null;
       var isIntervalSet = false;
       var ev = null;
+      var random;
       $('canvas').on('mousemove', function(ev) {
         var myData = {
           "clientX" : ev.pageX,
@@ -184,7 +203,7 @@
           if (isIntervalSet) {
             return;
           }
-          var random = Math.floor((Math.random() * 1000) + 500);
+          random = Math.floor((Math.random() * 500) + 500);
           //create object to execute every 2secs
           timer = window.setInterval(function(){
             var eventClick = new CustomEvent('eventClick');
