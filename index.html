@@ -41,6 +41,7 @@
         left:0;
         font-family: sans-serif;
         padding: 11px;
+        font-size:11px;
         font-weight: 100;
         text-align: end;
         text-transform: uppercase;
@@ -165,7 +166,12 @@
 
           // add new ripple each time mouse is clicked
           renderer.view.addEventListener('eventClick', function(ev) {
+            if(mouseX == undefined){
+              mouseX = 0;
+              mouseY = 0;
+            }
             console.log(mouseX);
+            if (mouseIn){
               ripples.push(new Ripple(mouseX, mouseY));
               console.log(ripples.length);
               if (ripples.length > 6){
@@ -227,7 +233,8 @@
       var isIntervalSet = false;
       var ev = null;
       var random;
-      $('canvas').on('mousemove', function(ev) {
+
+      $('canvas').on('mousemove touchmove', function(ev) {
         var myData = {
           "clientX" : ev.pageX,
           "clientY" : ev.pageY
@@ -244,6 +251,15 @@
           isIntervalSet = true;
       });
 
+      var $canvas = $('canvas');
+       mouseX = 0;
+       mouseY = 0;
+       $('canvas').trigger('mousemove', function() {
+         stage.alpha = 0;
+       });
+       mouseX = 1000;
+       mouseY = -1000;
+       $('canvas').trigger('mousemove', function() {});
 
     </script>
   </body>
