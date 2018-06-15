@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>workinprogress</title>
     <style>
+    body {
+      cursor: crosshair;
+      font-family: sans-serif;
+    text-align: center;
+    }
       canvas {
         width:100vw;
         height:100vh;
@@ -13,21 +18,24 @@
         left:0;
       }
       .work-list {
-        height:auto;
-        position:absolute;
-        background:white;
-        color:black;
-        text-transform: uppercase;
-        text-align: end;
-        z-index:99;
+        height: auto;
+        position: absolute;
+        color: white;
+        z-index: 99;
         font-family: sans-serif;
         padding: 11px;
         font-weight: 100;
         text-align: end;
         text-transform: uppercase;
+        bottom: 0;
+        right: 0;
+        font-size: 11px;
       }
       .work-list img {
         width:200px;
+      }
+      video {
+        max-width:100%;
       }
       .inner {
         width: 300px;
@@ -80,6 +88,15 @@
         /* Internet Explorer */
         filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
       }
+      .strokeme
+      {
+          color: transparent;
+          text-shadow:
+          -1px -1px 0 #fff,
+          1px -1px 0 #fff,
+          -1px 1px 0 #fff,
+          1px 1px 0 #fff;
+      }
       .last {
         /* Safari */
       -webkit-transform: rotate(90deg);
@@ -96,6 +113,48 @@
       /* Internet Explorer */
       filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
       }
+
+      .preview {
+        z-index: 99;
+        width: 400px;
+        height: 244px;
+        position: ABSOLUTE;
+        background: white;
+        top: 21vh;
+        left: 40vw;
+        border-top: 15px solid black;
+      }
+      .description {
+        color: white;
+        text-transform: uppercase;
+        font-size: 11px;
+        font-weight: 700;
+        text-align: left;
+        padding: 1rem;
+        background: black;
+      }
+      nav {
+        position:absolute;
+        top:0;
+        right:0;
+        z-index:99;
+      }
+      svg{
+        width: 38%;
+        display: inline;
+        transform: rotate3d;
+        -webkit-transform: scale(2,1);
+        -moz-transform: scale(2,1);
+        -ms-transform: scale(2,1);
+        -o-transform: scale(2,1);
+        transform: scale(3,1);
+      }
+
+      text{
+        fill: none;
+        stroke: white;
+        stroke-width:1px;
+      }
     </style>
   </head>
   <body>
@@ -106,17 +165,32 @@
     <div class="inner">
       <span class="bold">emily morgan</span><br>
       front-end web developer +<br/>
-      user experience designer +<br>
       <span class="bold"> emily.a.morgan00@gmail.com</span><br>
       438.883.2055
     </div>
 
+    <nav>
+      <ul>
+        <li>info</li>
+        <li>about</li>
+        <li>contact</li>
+      </ul>
+    </nav>
 
-    <!-- <div class="work-list">AMAIMMO - work 001<br/> VIEW LIVE<br/> DEV
-      <img src="bunny.jpg" alt=""/></div> -->
+
+    <div class="work-list">AMAIMMO - work 002<br/> UP NEXT
+      <img src="bunny.jpg" alt=""/></div>
+
+    <div class="preview">
+        <div class="video-container">
+          <video src="allin.mov" autoplay loop/>
+        </div>
+        <div class="description">CLIENT : ALL IN<br/> + CUSTOM SHOPIFY THEME <br/> 06.2018</div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
     <script>
       var stage = new PIXI.Container();
       stage.interactive = true;
@@ -141,28 +215,38 @@
       });
 
       //CREATE PIXI CANVAS AND APPEND TO DOM
-      var renderer = PIXI.autoDetectRenderer(512, 512);
+      var renderer = PIXI.autoDetectRenderer({
+				transparent: true});
       document.body.appendChild(renderer.view);
 
       // load assets
       PIXI.loader
-          .add("bunny2.jpg")
+          .add("bunny7.jpeg")
           .add("map.png")
           .add("bunny.jpg")
+          .add("petals.png")
+          .add("p1.png")
+          .add("p2.png")
+          .add("p3.png")
+          .add("p4.png")
+          .add("p5.png")
+          .add("p6.png")
           .load(setup);
 
       var ripples = [];
+      var hearts = [];
+
+     const stageBounds = stage._bounds;
 
       function setup() {
           // background
-          var bg = new PIXI.Sprite(PIXI.loader.resources["bunny2.jpg"].texture);
+          var bg = new PIXI.Sprite(PIXI.loader.resources["bunny7.jpeg"].texture);
           bg.anchor.set(0.5);
           bg.scale.set(0.5);
           bg.position.set(renderer.view.width/2, renderer.view.height/2);
           stage.addChild(bg);
           var random;
-          var stageBounds = stage._bounds;
-          console.log(stageBounds);
+        //  console.log(stageBounds);
 
           // add new ripple each time mouse is clicked
           renderer.view.addEventListener('eventClick', function(ev) {
@@ -170,10 +254,8 @@
               mouseX = 0;
               mouseY = 0;
             }
-            console.log(mouseX);
             if (mouseIn){
               ripples.push(new Ripple(mouseX, mouseY));
-              console.log(ripples.length);
               if (ripples.length > 6){
                 ripples.shift();
               }
@@ -182,14 +264,11 @@
             } else {
               randomX = (Math.random() * (stageBounds.maxX)) + (stageBounds.minX);
               randomY = (Math.random() * (stageBounds.maxY)) + (stageBounds.minY);
-              console.log(mouseX);
               ripples.push(new Ripple(randomX, randomY));
-              console.log(ripples.length);
               if (ripples.length > 6){
                 ripples.shift();
               }
               stage.filters = ripples.map(function(f) { return f.filter; });
-
             }
           }, false);
 
@@ -202,6 +281,9 @@
           // update ripples
           for(var i=0; i<ripples.length; i++) {
               ripples[i].update();
+          }
+          for(var i=0; i<hearts.length; i++) {
+              hearts[i].update();
           }
 
           renderer.render(stage);
@@ -229,12 +311,107 @@
           }
       }
 
+      function Hearts(x, y, heart) {
+        this.sprite = new PIXI.Sprite(PIXI.loader.resources[heart].texture);
+        this.sprite.anchor.set(0.5);
+        this.sprite.position.set(x, y);
+        this.sprite.scale.set(0.01);
+        this.sprite.alpha = 0;
+        this.sprite.name = heart;
+        stage.addChild(this.sprite);
+      }
+
+      var increase;
+
+      Hearts.prototype.update = function() {
+          var newRandom = (Math.random() * 5) + 1;
+          var newRandom2 = (Math.random() * 2) + 1;
+          //var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+
+          if (this.sprite.scale.y > 0.7) {
+            this.sprite.scale.y = 0.7;
+            this.sprite.scale.x = 0.7;
+            increase = false;
+          } else {
+            this.sprite.scale.x += 0.025;
+            this.sprite.scale.y += 0.025;
+            this.sprite.alpha += 0.025;
+
+            if (this.sprite.name == "p1.png") {
+              var newRandom = (Math.random() * 5) + 1;
+              var newRandom2 = (Math.random() * 1) + 1;
+              this.sprite.y -= newRandom;
+              this.sprite.x -= newRandom2;
+            } else if (this.sprite.name == "p2.png") {
+              var newRandom = (Math.random() * 4) + 1;
+              var newRandom2 = (Math.random() * 8) + 1;
+              this.sprite.y += newRandom;
+              this.sprite.x += newRandom2;
+            } else if (this.sprite.name == "p3.png") {
+              var newRandom = (Math.random() * 10) + 1;
+              var newRandom2 = (Math.random() * 2) + 1;
+              this.sprite.y -= newRandom;
+              this.sprite.x += newRandom2;
+            } else if (this.sprite.name == "p4.png") {
+              var newRandom = (Math.random() * 1) + 1;
+              var newRandom2 = (Math.random() * 6) + 1;
+              this.sprite.y -= newRandom;
+              this.sprite.x += newRandom2;
+            }
+            else if (this.sprite.name == "p5.png") {
+              var newRandom = (Math.random() * 3) + 1;
+              var newRandom2 = (Math.random() * 1) + 1;
+              this.sprite.y -= newRandom;
+              this.sprite.x += newRandom2;
+           }
+            else {
+              var newRandom = (Math.random() * 5) + 1;
+              var newRandom2 = (Math.random() * 2) + 1;
+              this.sprite.y += newRandom;
+              this.sprite.x -= newRandom2;
+            }
+
+            this.sprite.rotation += 0.1;
+            increase = true;
+
+          }
+          // function testLeft() {
+          //   var passed = false;
+          //   if (_this.sprite) {
+          //     if (this.sprite.x > 1000) {
+          //       alert('enter');
+          //       passed = true;
+          //     }
+          //   }
+          // }
+
+          // if ((!increase) && testLeft){
+          //   //alert('passed minx');
+          //   stage.removeChild(this.sprite);
+          // }
+
+      }
+
       var timer = null;
       var isIntervalSet = false;
       var ev = null;
       var random;
+      stage._filters = [];
 
-      $('canvas').on('mousemove touchmove', function(ev) {
+      $('canvas').on('click', function(){
+        //alert('yea');
+        //var filter = new PIXI.filters.BloomFilter();
+        increase = true;
+        //var heartObj;
+        hearts.push(new Hearts(mouseX, mouseY, "p1.png"));
+        hearts.push(new Hearts(mouseX, mouseY, "p2.png"));
+        hearts.push(new Hearts(mouseX, mouseY, "p3.png"));
+        hearts.push(new Hearts(mouseX, mouseY, "p4.png"));
+        hearts.push(new Hearts(mouseX, mouseY, "p5.png"));
+        hearts.push(new Hearts(mouseX, mouseY, "p6.png"));
+      });
+
+      $('canvas').on('mousemove', function(ev) {
         var myData = {
           "clientX" : ev.pageX,
           "clientY" : ev.pageY
@@ -242,7 +419,7 @@
           if (isIntervalSet) {
             return;
           }
-          random = Math.floor((Math.random() * 500) + 500);
+          random = Math.floor((Math.random() * 400) + 300);
           //create object to execute every 2secs
           timer = window.setInterval(function(){
             var eventClick = new CustomEvent('eventClick');
