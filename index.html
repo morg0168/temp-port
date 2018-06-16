@@ -6,12 +6,12 @@
     <title>workinprogress</title>
     <style>
     body {
-      cursor: crosshair;
-      font-family: sans-serif;
+      /* cursor: crosshair; */
+      font-family: "arial", sans-serif;
     text-align: center;
     }
       canvas {
-        width:100vw;
+        width:50vw;
         height:100vh;
         position:absolute;
         top:0;
@@ -22,7 +22,7 @@
         position: absolute;
         color: white;
         z-index: 99;
-        font-family: sans-serif;
+        font-family: "arial", sans-serif;
         padding: 11px;
         font-weight: 100;
         text-align: end;
@@ -38,18 +38,18 @@
         max-width:100%;
       }
       .inner {
-        width: 300px;
+        width: 250px;
         height: auto;
         background: black;
         position: absolute;
         z-index: 99;
         margin: 0 auto;
         color: white;
-        bottom:0;
-        left:0;
-        font-family: sans-serif;
+        top: 1rem;
+        right: 1rem;
+        font-family: "arial", sans-serif;
         padding: 11px;
-        font-size:11px;
+        font-size: 11px;
         font-weight: 100;
         text-align: end;
         text-transform: uppercase;
@@ -61,7 +61,7 @@
         margin:0;
         z-index:99;
         position:absolute;
-        font-family: sans-serif;
+        font-family: "arial", sans-serif;
         font-size:140px;
         color:WHITE;
          -webkit-text-stroke: 1px black;
@@ -73,6 +73,9 @@
          text-transform: uppercase;
        }
        .first {
+         font-size:2rem;
+       }
+       .vert {
                  /* Safari */
         -webkit-transform: rotate(-90deg);
 
@@ -120,24 +123,31 @@
         height: 244px;
         position: ABSOLUTE;
         background: white;
-        top: 21vh;
-        left: 40vw;
-        border-top: 15px solid black;
+        top: 28vh;
+        left: 34vw;
       }
       .description {
         color: white;
         text-transform: uppercase;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 700;
         text-align: left;
         padding: 1rem;
         background: black;
       }
       nav {
-        position:absolute;
-        top:0;
-        right:0;
-        z-index:99;
+        position: absolute;
+        top: 5rem;
+        left: 0rem;
+        z-index: 99;
+        font-size: 1rem;
+        color: yellow;
+      }
+      ul {
+        transform: scale(2,4);
+        list-style-type: none;
+        text-align: left;
+        text-transform: uppercase;
       }
       svg{
         width: 38%;
@@ -162,31 +172,32 @@
     <!-- built files will be auto injected -->
     <!-- <h1 class="first">Emily</h1>
     <h1 class="last">Morgan</h1> -->
-    <div class="inner">
-      <span class="bold">emily morgan</span><br>
-      front-end web developer +<br/>
-      <span class="bold"> emily.a.morgan00@gmail.com</span><br>
-      438.883.2055
-    </div>
+    <!-- <div class="inner">
+      <span class="bold first">emily morgan</span><br>
+      front-end web developer<br/>
+
+    </div> -->
 
     <nav>
       <ul>
-        <li>info</li>
-        <li>about</li>
-        <li>contact</li>
+        <li>001</li>
+        <li>002</li>
+        <li>003</li>
+        <li>INFO</li>
+        <li>CONTACT</li>
       </ul>
     </nav>
 
 
-    <div class="work-list">AMAIMMO - work 002<br/> UP NEXT
-      <img src="bunny.jpg" alt=""/></div>
+    <!-- <div class="work-list">AMAIMMO - work 002<br/> UP NEXT
+      <img src="bunny.jpg" alt=""/></div> -->
 
-    <div class="preview">
+    <!-- <div class="preview">
         <div class="video-container">
           <video src="allin.mov" autoplay loop/>
         </div>
         <div class="description">CLIENT : ALL IN<br/> + CUSTOM SHOPIFY THEME <br/> 06.2018</div>
-    </div>
+    </div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -237,19 +248,25 @@
       var hearts = [];
 
      const stageBounds = stage._bounds;
+     console.log(stageBounds.maxX);
+     console.log(stageBounds.minX);
+     console.log(stageBounds.maxY);
+     console.log(stageBounds.minY);
 
       function setup() {
           // background
+        //  console.log(stageBounds);
           var bg = new PIXI.Sprite(PIXI.loader.resources["bunny7.jpeg"].texture);
           bg.anchor.set(0.5);
           bg.scale.set(0.5);
           bg.position.set(renderer.view.width/2, renderer.view.height/2);
           stage.addChild(bg);
           var random;
-        //  console.log(stageBounds);
 
           // add new ripple each time mouse is clicked
           renderer.view.addEventListener('eventClick', function(ev) {
+            console.log(stageBounds.maxY);
+            //console.log(stageBounds);
             if(mouseX == undefined){
               mouseX = 0;
               mouseY = 0;
@@ -262,8 +279,8 @@
               stage.filters = ripples.map(function(f) { return f.filter; });
 
             } else {
-              randomX = (Math.random() * (stageBounds.maxX)) + (stageBounds.minX);
-              randomY = (Math.random() * (stageBounds.maxY)) + (stageBounds.minY);
+              randomX = (Math.random() * (1037.5)) + (-237.5);
+              randomY = (Math.random() * (1125)) + (-525);
               ripples.push(new Ripple(randomX, randomY));
               if (ripples.length > 6){
                 ripples.shift();
