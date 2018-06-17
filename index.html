@@ -7,6 +7,7 @@
     <style>
     body {
       /* cursor: crosshair; */
+      margin:0;
       font-family: "arial", sans-serif;
     text-align: center;
     }
@@ -14,8 +15,16 @@
         width:50vw;
         height:100vh;
         position:absolute;
-        top:0;
         left:0;
+      }
+      canvas:first-of-type {
+        top:100vh;
+      }
+      #container {
+        width: 50vw;
+        position: absolute;
+        right: 0;
+        height: 100vh;
       }
       .work-list {
         height: auto;
@@ -57,36 +66,36 @@
       .bold {
         font-weight:700;
       }
+       li {
+         display:inline;
+          margin-right: 3.51562vw;
+       }
+      .first {
+         margin-top:12vh;
+       }
       h1 {
+        font-size: 15.625vw;
+      letter-spacing: -1.17188vw;
+      line-height: 16.28125vw;
+      font-weight: normal;
         margin:0;
         z-index:99;
-        position:absolute;
+        position:relative;
+        text-align: left;
         font-family: "arial", sans-serif;
-        font-size:140px;
-        color:WHITE;
-         -webkit-text-stroke: 1px black;
-      text-shadow:
-       -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-         1px 1px 0 #000;
-         text-transform: uppercase;
-       }
-       .first {
-         font-size:2rem;
        }
        .vert {
                  /* Safari */
-        -webkit-transform: rotate(-90deg);
+        -webkit-transform: rotate(-270deg);
 
         /* Firefox */
-        -moz-transform: rotate(-90deg);
+        -moz-transform: rotate(-270deg);
 
         /* IE */
-        -ms-transform: rotate(-90deg);
+        -ms-transform: rotate(-270deg);
 
         /* Opera */
-        -o-transform: rotate(-90deg);
+        -o-transform: rotate(-270deg);
 
         /* Internet Explorer */
         filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
@@ -100,23 +109,12 @@
           -1px 1px 0 #fff,
           1px 1px 0 #fff;
       }
-      .last {
-        /* Safari */
-      -webkit-transform: rotate(90deg);
-
-      /* Firefox */
-      -moz-transform: rotate(90deg);
-
-      /* IE */
-      -ms-transform: rotate(90deg);
-
-      /* Opera */
-      -o-transform: rotate(90deg);
-
-      /* Internet Explorer */
-      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+      #container {
+        top:0;
       }
-
+      .content__text {
+        opacity:0;
+      }
       .preview {
         z-index: 99;
         width: 400px;
@@ -136,57 +134,52 @@
         background: black;
       }
       nav {
-        position: absolute;
-        top: 5rem;
-        left: 0rem;
-        z-index: 99;
+        width:100%;
+        background-color:white;
+        position: fixed;
+        z-index: 999;
         font-size: 1rem;
-        color: yellow;
+        color: black;
+        font-weight:100;
+        top:0;
       }
       ul {
-        transform: scale(2,4);
         list-style-type: none;
         text-align: left;
-        text-transform: uppercase;
-      }
-      svg{
-        width: 38%;
-        display: inline;
-        transform: rotate3d;
-        -webkit-transform: scale(2,1);
-        -moz-transform: scale(2,1);
-        -ms-transform: scale(2,1);
-        -o-transform: scale(2,1);
-        transform: scale(3,1);
+        text-transform: lowercase;
+        font-size: 1.25vw;
+        letter-spacing: -0.02344vw;
+        line-height: 1.64062vw;
+        margin-left: 0;
+        padding-left: 1rem;
       }
 
-      text{
-        fill: none;
-        stroke: white;
-        stroke-width:1px;
-      }
     </style>
   </head>
   <body>
+    <div id="container"></div>
     <div id="app"></div>
+    <nav>
+      <ul class="content__text">
+        <li>PROJECTS</li>
+        <li>INFO</li>
+        <li>CONTACT</li>
+      </ul>
+    </nav>
     <!-- built files will be auto injected -->
-    <!-- <h1 class="first">Emily</h1>
-    <h1 class="last">Morgan</h1> -->
+    <h1 class="first ml11">
+      <span class="text-wrapper">
+        <span class="line line1"></span>
+        <span class="letters">
+            Emily Morgan. <br/> Front-end Developer.
+          </span>
+        </span>
+      </h1>
     <!-- <div class="inner">
       <span class="bold first">emily morgan</span><br>
       front-end web developer<br/>
 
     </div> -->
-
-    <nav>
-      <ul>
-        <li>001</li>
-        <li>002</li>
-        <li>003</li>
-        <li>INFO</li>
-        <li>CONTACT</li>
-      </ul>
-    </nav>
 
 
     <!-- <div class="work-list">AMAIMMO - work 002<br/> UP NEXT
@@ -202,7 +195,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/93/three.js"></script>
+    <script src="./anime.min.js"></script>
+    <script src="./charming.min.js"></script>
     <script>
+    a = {
+      aInternal: false,
+      aListener: function(val) {},
+      set a(val) {
+        this.aInternal = val;
+        this.aListener(val);
+      },
+      get a() {
+        return this.aInternal;
+      },
+      registerListener: function(listener) {
+        this.aListener = listener;
+      }
+    }
+
+
+
+
       var stage = new PIXI.Container();
       stage.interactive = true;
 
@@ -216,12 +230,12 @@
       //MOUSE ON/OFF SCREEN HELPER
       var mouseIn = false;
       stage.on("mouseover", function(e){
-        console.log('over');
+        // console.log('over');
         mouseIn = true;
       });
 
       stage.on("mouseout", function(e){
-        console.log('out');
+        // console.log('out');
         mouseIn = false;
       });
 
@@ -248,10 +262,10 @@
       var hearts = [];
 
      const stageBounds = stage._bounds;
-     console.log(stageBounds.maxX);
-     console.log(stageBounds.minX);
-     console.log(stageBounds.maxY);
-     console.log(stageBounds.minY);
+     // console.log(stageBounds.maxX);
+     // console.log(stageBounds.minX);
+     // console.log(stageBounds.maxY);
+     // console.log(stageBounds.minY);
 
       function setup() {
           // background
@@ -265,7 +279,7 @@
 
           // add new ripple each time mouse is clicked
           renderer.view.addEventListener('eventClick', function(ev) {
-            console.log(stageBounds.maxY);
+            // console.log(stageBounds.maxY);
             //console.log(stageBounds);
             if(mouseX == undefined){
               mouseX = 0;
@@ -454,6 +468,202 @@
        mouseX = 1000;
        mouseY = -1000;
        $('canvas').trigger('mousemove', function() {});
+
+function threejs () {
+
+       //THREE JS
+       var threerenderer, scene, camera, distance, raycaster, projector;
+       //get our <DIV> container
+       var container = document.getElementById('container');
+       // Helper var wich we will use as a additional correction coefficient for objects and camera
+       var distance = 400;
+
+       function init() {
+        //init render
+          threerenderer = new THREE.WebGLRenderer({antialias: true});
+          //render window size
+          threerenderer.setSize(window.innerWidth/2, window.innerHeight);
+          //background color
+          threerenderer.setClearColor(0xeeeeee, 1);
+          //append render to the <DIV> container
+          container.appendChild(threerenderer.domElement);
+
+        //init scene, camera and camera position
+          scene = new THREE.Scene();
+          camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
+          camera.position.set(100, -400, 2000);
+          //adding camera to the scene
+          scene.add(camera);
+
+        //LIGHTNING
+          //first point light
+          light = new THREE.PointLight(0xffffff, 1, 4000);
+          light.position.set(50, 0, 0);
+          //the second one
+          light_two = new THREE.PointLight(0xffffff, 1, 4000);
+          light_two.position.set(-100, 800, 800);
+          //And another global lightning some sort of cripple GL
+          lightAmbient = new THREE.AmbientLight(0x404040);
+          scene.add(light, light_two, lightAmbient);
+
+
+        //OBJECTS
+          //here we add objects by functions which we will write below
+           createSpheres();
+          // createDiamond();
+          // createSpace();
+
+          //adding scene and camera to the render
+          threerenderer.render(scene, camera);
+          window.addEventListener('resize', onWindowResize, false);
+
+          document.addEventListener('mousemove', onMouseMove, false);
+
+      };
+
+      function createSpheres() {
+        //create empty 3d object — group for future spheres
+        spheres = new THREE.Object3D();
+        //randomly create 80 spheres by loop
+            for (var i = 0; i < 8; i++) {
+                var sphere = new THREE.SphereGeometry();
+                var material = new THREE.MeshPhongMaterial({
+                    //color: Math.random() * 0xff00000 - 0xff00000,
+                    color: 0xeee8f3,
+                    shading: THREE.FlatShading,
+                    emissive: 0x111111
+                })
+                //var mirrorMaterial = new THREE.MeshPhongMaterial( { emissive: 0x111111, envMap: mirrorCamera.renderTarget } );
+
+
+            //creating the mesh and add primitive and material
+                var particle = new THREE.Mesh(sphere, material);
+                //randomly set position and scale
+                console.log(Math.random());
+                particle.position.x = distance * 5.5;
+                particle.position.y = -distance * 2;
+                particle.position.z = 0;
+                //particle.rotation.y = Math.random() * 2 * Math.PI;
+                particle.scale.x = particle.scale.y = particle.scale.z = 100;
+                //add particle to the spheres group
+                spheres.add(particle);
+            }
+
+            //correct spheres position relative to the camera
+            spheres.position.y = 500;
+            spheres.position.x = -2000;
+            spheres.position.z = -100;
+            spheres.rotation.y = Math.PI * 600;
+            //add spheres to the scene
+            scene.add(spheres);
+            animate();
+          }
+
+          function onMouseMove(event) {
+          //  alert('mousemove');
+            var threemouseX = event.clientX - window.innerWidth / 4;
+            var threemouseY = event.clientY - window.innerHeight / 4;
+            console.log(threemouseX);
+            console.log(threemouseY);
+            //camera.position.x += (threemouseX - camera.position.x) * 0.05;
+            //camera.position.y += (threemouseY - camera.position.y);
+            //set up camera position
+          //  camera.lookAt(scene.position);
+        };
+
+          function onWindowResize() {
+            // camera.aspect = window.innerWidth / window.innerHeight;
+            // threerenderer.setSize(window.innerWidth, window.innerHeight);
+            // camera.updateProjectionMatrix();
+        };
+
+        function animate() {
+          requestAnimationFrame(animate);
+          render();
+      };
+
+      function render() {
+      //original example from here https://github.com/mrdoob/three.js/blob/master/examples/webgl_lights_pointlights.html
+        var timer = 0.00001 * Date.now();
+      //come up with random animation
+        for (var i = 0, l = spheres.children.length; i < l; i++) {
+            var object = spheres.children[i];
+            object.rotation.y += Math.PI / 60;
+            if (i < 20) {
+                object.rotation.y -= Math.PI / 40;
+            }
+        }
+          threerenderer.render(scene, camera);
+      }
+
+      init();
+    };
+    threejs();
+
+
+    //CUSTOM TEXT
+
+    const chars = ['$','%','#','@','&','(',')','=','*','/'];
+    const charsTotal = chars.length;
+    const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+    class Entry {
+        constructor(el) {
+            this.DOM = {el: el};
+            this.DOM.title = {word: document.querySelector('.content__text')};
+            charming(this.DOM.title.word);
+            this.DOM.title.letters = Array.from(this.DOM.title.word.querySelectorAll('span'));
+            this.DOM.title.letters.forEach(letter => letter.dataset.initial = letter.innerHTML);
+            this.lettersTotal = this.DOM.title.letters.length;
+            //observer.observe();
+            this.DOM.title.letters.forEach((letter, pos) => {
+                    letter.innerHTML = chars[getRandomInt(0,charsTotal-1)];
+            });
+            this.DOM.title.word.style.opacity = 1;
+        }
+        enter(direction = 'down') {
+
+
+            this.timeouts = [];
+            this.complete = false;
+            let cnt = 0;
+            this.DOM.title.letters.forEach((letter, pos) => {
+                const timeout = setTimeout(() => {
+                    letter.innerHTML = chars[getRandomInt(0,charsTotal-1)];
+                    setTimeout(() => {
+                        letter.innerHTML = letter.dataset.initial;
+                        ++cnt;
+                        if ( cnt === this.lettersTotal ) {
+                            this.complete = true;
+                        }
+                    }, 100);
+                }, pos*70);
+                this.timeouts.push(timeout);
+            });
+        }
+        exit(direction = 'down') {
+            this.DOM.title.word.style.opacity = 0;
+            if ( this.complete ) return;
+            for ( let i = 0, len = this.timeouts.length; i <= len - 1; ++i ) {
+                clearTimeout(this.timeouts[i]);
+            }
+        }
+    }
+
+
+    // a.registerListener(function(val) {
+    //     //alert("Someone changed the value of x.a to " + val);
+    //     //let _entry;
+    //     //window.Entry;
+    //     window.Entry = new Entry();
+    //     window.Entry.enter();
+    // });
+
+    window.addEventListener("load", function () {
+      // a.a = true;
+          window.Entry = new Entry();
+          window.Entry.enter();
+    });
 
     </script>
   </body>
