@@ -11,6 +11,10 @@
       font-family: "arial", sans-serif;
     text-align: center;
     }
+    a {
+      text-decoration: none;
+      color:black;
+    }
       canvas {
         width:50vw;
         height:100vh;
@@ -74,12 +78,11 @@
          margin-top:12vh;
        }
       h1 {
-        font-size: 15.625vw;
-      letter-spacing: -1.17188vw;
-      line-height: 16.28125vw;
+        font-size: 13.625vw;
+      letter-spacing: -0.85vw;
+      line-height:1;
       font-weight: normal;
         margin:0;
-        z-index:99;
         position:relative;
         text-align: left;
         font-family: "arial", sans-serif;
@@ -110,6 +113,7 @@
           1px 1px 0 #fff;
       }
       #container {
+        z-index:99;
         top:0;
       }
       .content__text {
@@ -154,27 +158,61 @@
         padding-left: 1rem;
       }
 
+
+
+.ml11 .line {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #000;
+  transform-origin: 0 50%;
+}
+
+.ml11 .line1 {
+  top: 0;
+  left: 0;
+}
+
+.ml11 .letter {
+  display: inline-block;
+  line-height: 1em;
+}
+
+.title-contain.testing {
+
+}
+
+@keyframes SHW {
+    from {
+        transform:rotate3d(0);
+    }
+    to {
+        transform: rotate3d(0, 1, 0.5, 3.142rad);
+    }
+  }
+
     </style>
   </head>
   <body>
     <div id="container"></div>
     <div id="app"></div>
     <nav>
-      <ul class="content__text">
-        <li>PROJECTS</li>
-        <li>INFO</li>
-        <li>CONTACT</li>
+      <!-- <ul class="content__text"> -->
+        <ul id="test">
+
+        <li id="test"><a href="#" class="">PROJECTS</a></li>
+        <li id="test2"><a href="#" class="">INFO</a></li>
+        <li id="test3"><a href="#" class="">CONTACT</a></li>
       </ul>
     </nav>
     <!-- built files will be auto injected -->
-    <h1 class="first ml11">
-      <span class="text-wrapper">
-        <span class="line line1"></span>
-        <span class="letters">
-            Emily Morgan. <br/> Front-end Developer.
-          </span>
-        </span>
-      </h1>
+    <div class="title-contain" data-top="@class: title-contain" data--1-top="@class: title-contain testing" data--400-top="@class: title-contain">
+    <h1 class="first ml11"><span class="letters">Emily Morgan. </span></h1>
+    <h1 class="ml11"><span class="letters">Front-end Web</span></h1>
+    <h1 class="ml11"><span class="letters">Developer.</span></h1>
+  </div>
     <!-- <div class="inner">
       <span class="bold first">emily morgan</span><br>
       front-end web developer<br/>
@@ -196,6 +234,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/93/three.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
     <script src="./anime.min.js"></script>
     <script src="./charming.min.js"></script>
     <script>
@@ -213,9 +253,6 @@
         this.aListener = listener;
       }
     }
-
-
-
 
       var stage = new PIXI.Container();
       stage.interactive = true;
@@ -610,14 +647,14 @@ function threejs () {
     class Entry {
         constructor(el) {
             this.DOM = {el: el};
-            this.DOM.title = {word: document.querySelector('.content__text')};
+            this.DOM.title = {word: el.querySelector('.content__text')};
+            console.log(this.DOM.title);
             charming(this.DOM.title.word);
             this.DOM.title.letters = Array.from(this.DOM.title.word.querySelectorAll('span'));
             this.DOM.title.letters.forEach(letter => letter.dataset.initial = letter.innerHTML);
             this.lettersTotal = this.DOM.title.letters.length;
-            //observer.observe();
             this.DOM.title.letters.forEach((letter, pos) => {
-                    letter.innerHTML = chars[getRandomInt(0,charsTotal-1)];
+              letter.innerHTML = chars[getRandomInt(0,charsTotal-1)];
             });
             this.DOM.title.word.style.opacity = 1;
         }
@@ -651,19 +688,63 @@ function threejs () {
     }
 
 
-    // a.registerListener(function(val) {
-    //     //alert("Someone changed the value of x.a to " + val);
-    //     //let _entry;
-    //     //window.Entry;
-    //     window.Entry = new Entry();
-    //     window.Entry.enter();
-    // });
-
     window.addEventListener("load", function () {
-      // a.a = true;
-          window.Entry = new Entry();
-          window.Entry.enter();
+      if (a.a == true) {
+        window.Entry = new Entry();
+        window.Entry.enter();
+      }
     });
+
+    // Wrap every letter in a span
+$('.ml11 .letters').each(function(){
+  $(this).html($(this).text().replace(/[^\s\\]/g, "<span class='letter'>$&</span>"));
+});
+
+anime.timeline({loop: false})
+  .add({
+    targets: '.ml11',
+    scaleY: [0,1],
+    opacity: [0.5,1],
+    easing: "easeOutExpo",
+    duration: 500
+  })
+.add({
+    targets: '.ml11 .letter',
+    opacity: [0,1],
+    //easing: "easeOutExpo",
+    duration: 2000,
+    //offset: '-=775',
+    delay: function(el, i) {
+      return 100 * (i+1)
+    },
+    complete: function() {
+        // window.Entry = new Entry(document.getElementById('test'));
+        // window.Entry.enter();
+        // window.Entry = new Entry(document.getElementById('test2'));
+        // window.Entry.enter();
+        // window.Entry = new Entry(document.getElementById('test3'));
+        // window.Entry.enter();
+        skrollrStart();
+    }
+  });
+
+  //SKROLLR
+  var affixval = $(window).height()
+  var skrollrStart = function() {
+    _skrollr = skrollr.get();
+    if (_skrollr) {
+        _skrollr.refresh();
+    }
+    else {
+        skrollr.init({
+          smoothScrolling: true,
+          forceHeight: false,
+            constants: {
+                wh: affixval
+            }
+        });
+    }
+  }
 
     </script>
   </body>
