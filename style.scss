@@ -4,30 +4,60 @@ body {
   /* cursor: crosshair; */
   margin: 0;
   font-family: "arial", sans-serif;
-  text-align: center;
 }
 
 a {
   text-decoration: none;
   color: black;
+  font-family: "arial", sans-serif;
 }
+
 
 canvas {
-  width: 50vw;
-  height: 100vh;
-  position: absolute;
+  width: 100vw;
+  max-height: 100vh;
+  position: relative;
   left: 0;
-}
+    margin-top:100vh;
 
-canvas:first-of-type {
-  top: 100vh;
 }
 
 #container {
-  width: 50vw;
-  position: absolute;
-  right: 0;
+  position: relative;
   height: 100vh;
+  text-align: right;
+      @media screen and (max-width: 414px) {
+        max-height:50vh;
+      }
+  canvas {
+    margin-top:0;
+      @media screen and (max-width: 414px) {
+        max-height:50vh;
+      }
+
+  }
+}
+
+#about {
+  // font-family: "Times New Roman", serif;
+  text-align: left;
+  margin-left:0.67rem;
+  font-size: 3.8092vw;
+  letter-spacing: -0.12077vw;
+    line-height: 5.07246vw;
+    // margin-left: 11vw;
+    margin-right:11vw;
+    a {
+      margin: 15vh auto;
+      display: block;
+      text-decoration: none;
+      text-align: right;
+      font-size: 10vw;
+      margin-bottom: -55vh;
+      &:hover {
+        color:grey;
+      }
+    }
 }
 
 .work-list {
@@ -51,6 +81,17 @@ canvas:first-of-type {
 
 video {
   max-width: 100%;
+}
+
+.email {
+  // background-color:black;
+  // color:white;
+  // padding:2vh 8vw;
+  // margin:0 auto;
+  // text-align:left;
+  // position: relative;
+  // bottom:-60vh;
+  // z-index:9999;
 }
 
 .inner {
@@ -95,15 +136,37 @@ h1 {
   font-family: "arial", sans-serif;
 }
 
+.social {
+  text-align: left;
+      position: fixed;
+      top: 44vh;
+      z-index: 9999;
+      color: blue;
+      right:-33vw;
+
+  a {
+    font-size: 5vw;
+    margin: 3.5vw 8vw;
+    text-decoration: underline;
+    &:hover {
+      color:grey;
+    }
+  }
+}
+
 .vert {
   /* Safari */
-  -webkit-transform: rotate(-270deg);
+  // -webkit-transform: rotate(-270deg);
+  -webkit-transform: rotate(-90deg);
   /* Firefox */
-  -moz-transform: rotate(-270deg);
+  // -moz-transform: rotate(-270deg);
+    -moz-transform: rotate(-90deg);
   /* IE */
-  -ms-transform: rotate(-270deg);
+  // -ms-transform: rotate(-270deg);
+    -ms-transform: rotate(-90deg);
   /* Opera */
-  -o-transform: rotate(-270deg);
+  // -o-transform: rotate(-270deg);
+    -o-transform: rotate(-90deg);
   /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
@@ -158,6 +221,9 @@ ul {
   text-align: left;
   text-transform: lowercase;
   font-size: 1.25vw;
+  @media screen and (max-width: 414px) {
+    font-size: 3.6vw;
+  }
   letter-spacing: -0.02344vw;
   line-height: 1.64062vw;
   margin-left: 0;
