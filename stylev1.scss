@@ -1,4 +1,8 @@
-// compileCompressed: ./style.css
+// compileCompressed: ./stylev1.css
+
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0,);
+}
 
 body {
   /* cursor: crosshair; */
@@ -14,18 +18,24 @@ a {
 
 
 canvas {
-  width: 100vw;
-  max-height: 100vh;
-  position: relative;
-  left: 0;
-    margin-top:100vh;
+  width: 50vw;
+      height: 100vh;
+      position: relative;
+      right: 0;
+      float: left;
+      // margin-top: -100vh;
+      @media screen and (max-width: 414px) {
+        max-height:50vh;
+      }
+
 
 }
 
 #container {
   position: relative;
-  height: 100vh;
-  text-align: right;
+      height: 100vh;
+      width: 50vw;
+      float:right;
       @media screen and (max-width: 414px) {
         max-height:50vh;
       }
@@ -42,18 +52,19 @@ canvas {
   // font-family: "Times New Roman", serif;
   text-align: left;
   margin-left:0.67rem;
-  font-size: 3.8092vw;
+  font-size: 4.2092vw;
   letter-spacing: -0.12077vw;
     line-height: 5.07246vw;
     // margin-left: 11vw;
     margin-right:11vw;
+    // margin-bottom: 45vh;
     a {
-      margin: 15vh auto;
-      display: block;
-      text-decoration: none;
-      text-align: right;
-      font-size: 10vw;
-      margin-bottom: -55vh;
+      // margin: 15vh auto;
+      // display: block;
+      text-decoration: underline;
+      // text-align: right;
+      // font-size: 10vw;
+      // margin-bottom: -55vh;
       &:hover {
         color:grey;
       }
@@ -134,15 +145,20 @@ h1 {
   position: relative;
   text-align: left;
   font-family: "arial", sans-serif;
+  margin-left:0rem!important;
+  @media screen and (max-width: 414px) {
+      -webkit-margin-start: 0.67rem!important;
+    }
 }
 
 .social {
-  text-align: left;
-      position: fixed;
-      top: 44vh;
-      z-index: 9999;
-      color: blue;
-      right:-33vw;
+  // text-align: left;
+  //     // position: fixed;
+  //     top: 44vh;
+  //     z-index: 9999;
+  //     color: blue;
+  //     right:-33vw;
+
 
   a {
     font-size: 5vw;
@@ -214,15 +230,19 @@ nav {
   color: black;
   font-weight: 100;
   top: 0;
+  a.active {
+    text-decoration: line-through;
+  }
 }
 
 ul {
   list-style-type: none;
   text-align: left;
   text-transform: lowercase;
-  font-size: 1.25vw;
+  // font-size: 1.25vw;
+  font-size: 2vw;
   @media screen and (max-width: 414px) {
-    font-size: 3.6vw;
+    font-size: 4.6vw;
   }
   letter-spacing: -0.02344vw;
   line-height: 1.64062vw;

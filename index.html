@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>workinprogress</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="stylev1.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
 </head>
 
@@ -14,9 +14,10 @@
   <nav>
     <!-- <ul class="content__text"> -->
     <ul id="test">
-      <li id="test"><a href="projects.html" class="active">info</a></li>
-      <li id="test2"><a href="#" class="">projects</a></li>
-      <li id="test2"><a href="#" class="">contact</a></li>
+      <li id="test"><a href="#" class="active" target="_blank">info</a></li>
+      <li id="test2"><a href="projects.html" class="" target="_blank">projects</a></li>
+      <li id="test2"><a href="#" class="" target="_blank">cv</a></li>
+      <li id="test2"><a href="#" class="" target="_blank">contact</a></li>
     </ul>
   </nav>
   <!-- built files will be auto injected -->
@@ -25,17 +26,11 @@
     <h1 class="ml11"><span class="letters">Front-end Web</span></h1>
     <h1 class="ml11"><span class="letters">Developer.</span></h1>
   </div>
-  <div id="container"></div>
   <div id="about" class="content__text">
-    <p>Hey! I'm Emily. I'm a front-end web developer based out of Montreal with over a year of experience working in DevSecOps and more specifically E-commerce. I recently quit my job and am looking for some creative freelance projects to collaborate with people on before I start my software engineering
-      degree at CODE University of Berlin in September 2019. </p>
-    <p>I'm a huge fan of object oriented javascript, webGL, and recently game development. Some technology stacks I've really been enjoying working with lately include Node.js, Vue.js, PIXI.js, Three.js and HTML5.</p>
-    <p>To see what I'm up to you can checkout my <a href="/projects">projects</a></p>
+    <p>Hey! I'm Emily. I'm a front-end web developer based out of Montreal with over a year of experience working in DevSecOps and more specifically E-commerce. </p>
+    <p>I'm a huge fan of object oriented JavaScript, webGL, and recently game development. Some technology stacks I've really been enjoying working with lately include Node.js, Vue.js, PIXI.js, Three.js and HTML5.</p>
+    <p>To see what I'm up to you can checkout my <a href="projects.html">projects.</a></p>
   </div>
-  <!-- <div class="social vert">
-    <a href="https://github.com/morg0168">info</a>
-    <a href="mailto:emily.a.morgan00@gmail.com">contact</a>
-  </div> -->
   <!-- <div class="email">or send me an  <a href="mailto:emily.a.morgan00@gmail.com">email <a></p></div> -->
   <!-- <div class="inner">
       <span class="bold first">emily morgan</span><br>
@@ -53,7 +48,13 @@
         </div>
         <div class="description">CLIENT : ALL IN<br/> + CUSTOM SHOPIFY THEME <br/> 06.2018</div>
     </div> -->
-
+  <div id="container"></div>
+  <div id="container2"></div>
+  <div class="social">
+    <a href="https://github.com/morg0168" target="_blank">github</a>
+    <a href="https://www.linkedin.com/in/emily-morgan-b1a5b513b/" target="_blank">linkedin</a>
+    <a href="mailto:emily.a.morgan00@gmail.com">email</a>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
@@ -108,7 +109,9 @@
     var renderer = PIXI.autoDetectRenderer({
       transparent: true
     });
-    document.body.appendChild(renderer.view);
+    var container2 = document.getElementById('container2');
+    container2.appendChild(renderer.view);
+
 
     // load assets
     PIXI.loader
@@ -162,16 +165,16 @@
 
           increase = true;
 
-          function addTheHearts () {
-          //  var random = Math.random(0, 100);
+          function addTheHearts() {
+            //  var random = Math.random(0, 100);
             //var intrandom = 0;
-            if (getRandomInt(0, 10000) % getRandomInt(0, 1) == 0)
+            if (getRandomInt(0, 10000) % getRandomInt(0, 10000) == 0)
               hearts.push(new Hearts(mouseX, mouseY, "p1.png"));
-              hearts.push(new Hearts(mouseX, mouseY, "p2.png"));
-              hearts.push(new Hearts(mouseX, mouseY, "p3.png"));
-              hearts.push(new Hearts(mouseX, mouseY, "p4.png"));
-              hearts.push(new Hearts(mouseX, mouseY, "p5.png"));
-              hearts.push(new Hearts(mouseX, mouseY, "p6.png"));
+            hearts.push(new Hearts(mouseX, mouseY, "p2.png"));
+            hearts.push(new Hearts(mouseX, mouseY, "p3.png"));
+            hearts.push(new Hearts(mouseX, mouseY, "p4.png"));
+            hearts.push(new Hearts(mouseX, mouseY, "p5.png"));
+            hearts.push(new Hearts(mouseX, mouseY, "p6.png"));
 
           }
           addTheHearts();
@@ -514,93 +517,79 @@
           letter.innerHTML = chars[getRandomInt(0, charsTotal - 1)];
           letter.style.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
         });
-        this.DOM.title.word.style.opacity = 1;
-      }
-      enter(direction = 'down') {
-
-
         this.timeouts = [];
         this.complete = false;
-        let cnt = 0;
-        let stopped = false;
-        var j = 0;
-        this.DOM.title.letters.forEach((letter, pos) => {
-          //  j++;
-          function launch() {
+        this.j = 0;
+        this.enter = function() {
+          this.DOM.title.word.style.opacity = 1;
+          if (this.complete === false) {
+            this.DOM.title.letters.forEach((letter, pos) => {
+              var inc = 0,
+                max = 9999,
+                delay = 1000; // 100 milliseconds
+
+              function timeoutLoop() {
+                if (letter.dataset.initial == letter.innerHTML) {
+                  this.complete = true;
+                  clearTimeout(timeoutLoop);
+                }
+                if ((++inc < max) && !this.complete)
+                  letter.style.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                setTimeout(timeoutLoop, 0);
+              }
+
+              function changeLetterLoop() {
+                if (letter.dataset.initial == letter.innerHTML) {
+                  this.complete = true;
+                  clearTimeout(changeLetterLoop);
+                }
+                if ((++inc < max) && !this.complete && (getRandomInt(0, charsTotal - 1) % ++inc == 0))
+                  letter.innerHTML = chars[getRandomInt(0, charsTotal - 1)];
+                setTimeout(changeLetterLoop, 0);
+              }
+                setTimeout(timeoutLoop, 0);
+                setTimeout(changeLetterLoop, 0);
+            });
+          }
+        }
+        this.reveal = function() {
+          this.DOM.title.letters.forEach((letter, pos) => {
             var inc = 0,
               max = 9999,
               delay = 100; // 100 milliseconds
 
-            function timeoutLoop() {
-              //document.getElementById('result').innerHTML = inc;
-              if ((++inc < max) && !stopped)
-                letter.style.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-              //letter.innerHTML = inc;
-              setTimeout(timeoutLoop, delay);
-            }
-
-            function changeLetterLoop() {
-              if ((++inc < max) && !stopped && (getRandomInt(0, charsTotal - 1) % ++inc == 0))
-                letter.innerHTML = chars[getRandomInt(0, charsTotal - 1)];
-              setTimeout(changeLetterLoop, 0);
-            }
-
-            function showMessage() {
-              j++;
-              var inc = 0;
-              if (getRandomInt(0, charsTotal - 1) % ++inc == 0) {
-                let match;
-                let matchDataset;
-                //console.log(window.entryObj.DOM.title.letters[j]);
-                // if ((window.entryObj.DOM.title.letters[j]) && (window.entryObj.DOM.title.letters[j] !== undefined)) {
-                //   match = window.entryObj.DOM.title.letters[j];
-                //   matchDataset = match.dataset.initial;
-                // }
-                //  if (letter.innerHTML == matchDataset && (letter.innerHTML !== letter.dataset.initial)) {
-
-                letter.innerHTML = letter.dataset.initial;
-                letter.style.color = '#000000';
-                ++cnt;
-                stopped = true;
-                //}
+              function revealLetters() {
                 if (letter.dataset.initial == letter.innerHTML) {
-
-                  setTimeout(showMessage, 0);
+                  this.complete = true;
+                  clearTimeout(revealLetters);
+                } else {
+                  letter.innerHTML = letter.dataset.initial;
+                  letter.style.color = '#000000';
+                setTimeout(revealLetters, 0);
                 }
-
               }
-              if (cnt === this.lettersTotal) {
-                this.complete = true;
-                clearTimeout(timeoutLoop);
-                clearTimeout(changeLetterLoop);
-
-              }
-            }
-
-            setTimeout(timeoutLoop, delay);
-            setTimeout(changeLetterLoop, 1000);
-            setTimeout(showMessage, 3000);
-          }
-          launch();
-        });
-      }
-      exit(direction = 'down') {
-        this.DOM.title.word.style.opacity = 0;
-        if (this.complete) return;
-        for (let i = 0, len = this.timeouts.length; i <= len - 1; ++i) {
-          clearTimeout(this.timeouts[i]);
+              setTimeout(revealLetters, 0 );
+          });
         }
       }
-    }
+    } //end entry class
 
-    var entryObj;
+    var entryObj; //instantiate entry class
     window.addEventListener("load", function() {
-      //if (a.a == true) {
       entryObj = new Entry(document);
-      //window.Entry.enter();
       entryObj.enter();
-      //  }
     });
+
+    //window.addEventListener("scroll", function() {
+      //alert('clicked');
+      $(window).on("scroll", function() {
+        if ($(window).scrollTop() > 150) {
+        window.entryObj.reveal();
+        }
+      });
+
+
+    //});
 
     // Wrap every letter in a span
     $('.ml11 .letters').each(function() {
