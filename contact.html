@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>workinprogress</title>
+  <link rel="stylesheet" type="text/css" href="stylev1.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
+  <style>
+    .contact-title {
+      margin-top: 20vh!important;
+    }
+    canvas {
+      position:absolute;
+      top:5vh;
+      left:0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <nav>
+    <!-- <ul class="content__text"> -->
+    <ul id="test">
+      <li id="test"><a href="#" class="active" target="_blank">info</a></li>
+      <li id="test2"><a href="projects.html" class="" target="_blank">projects</a></li>
+      <li id="test2"><a href="#" class="" target="_blank">cv</a></li>
+      <li id="test2"><a href="#" class="" target="_blank">contact</a></li>
+    </ul>
+  </nav>
+  <!-- built files will be auto injected -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/93/three.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
+  <script src="./anime.min.js"></script>
+  <script src="./charming.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+  <script>
+
+var font;
+var vehicles = [];
+
+function preload() {
+  font = loadFont('Arial.otf');
+}
+function setup() {
+  createCanvas(800, 300);
+//  background(51);
+  textFont(font);
+  // textSize(192);
+  // fill(255);
+  // noStroke();
+  // text('contactt', 100, 200);
+
+  var points = font.textToPoints('projects', 100, 200, 192);
+  // console.log(points);
+
+  for (var i = 0; i < points.length; i++) {
+    var pt = points[i];
+    //make vehicle for every point
+    var vehicle = new Vehicle(pt.x, pt.y);
+    vehicles.push(vehicle);
+    // stroke(0,255,0);
+    // strokeWeight(4);
+    // point(pt.x, pt.y);
+  }
+}
+
+function draw() {
+  background(255);
+ for (var i = 0; i < vehicles.length; i++){
+   var v = vehicles[i];
+   v.behaviours();
+   v.update();
+   v.show();
+ }
+}//end sketch
+
+
+//VEHICLE.JS
+function Vehicle(x, y) {
+//position, velocity, target, acceleration
+  this.pos = createVector(random(width), random(height));
+  this.target = createVector(x, y);
+  this.vel = p5.Vector.random2D();
+  this.acc = createVector();
+  this.r = 8;
+  //desired vel is always its max speed
+  this.maxspeed = 10;
+  this.maxforce = 1;
+}
+
+Vehicle.prototype.update = function() {
+  //velocity changing POSITION and vice versa
+  this.pos.add(this.vel);
+  this.vel.add(this.acc);
+  //clear acceleration
+  this.acc.mult(0);
+}
+
+//calculate from self to targets
+//calculate its maximum speed
+//calculate sterring force to apply to its acceleration
+Vehicle.prototype.behaviours = function() {
+  var arrive = this.arrive(this.target);
+  this.applyForce(arrive);
+  var mouse = createVector(mouseX, mouseY);
+  var flee = this.flee(mouse);
+
+  //fleeing force much stronger than arrival
+  arrive.mult(1);
+  flee.mult(5);
+
+  this.applyForce(arrive);
+  this.applyForce(flee);
+}
+
+Vehicle.prototype.applyForce = function(f) {
+  this.acc.add(f);
+}
+
+Vehicle.prototype.show = function() {
+  stroke(0, 0, 0);
+  strokeWeight(8);
+  point(this.pos.x, this.pos.y);
+}
+
+//same but what is the desired magnitude?
+Vehicle.prototype.arrive = function(target) {
+  //get a vector pointing from position to target, i.e subtract two vectors
+  var desired = p5.Vector.sub(target, this.pos);
+  var d = desired.mag();
+  var speed = this.maxspeed;
+  //if distance is less than 100px we want a magnitude (speed) to be:
+  if (d < 100){
+    //when dist is 0, magnitude is zero, when dist is 100, want max speed
+    speed = map(d, 0, 100, 0, this.maxspeed);
+  }
+  desired.setMag(speed);
+  //need steering force, which equals desired MINUS velocity
+  var steer = p5.Vector.sub(desired, this.vel);
+  steer.limit(this.maxforce);
+  return steer;
+}
+
+
+Vehicle.prototype.flee = function(target) {
+  //get a vector pointing from position to target, i.e subtract two vectors
+  var desired = p5.Vector.sub(target, this.pos);
+  var d = desired.mag();
+  if (d < 50) {
+
+  desired.setMag(this.maxspeed);
+  //multiply force so move in oppositye direction as fast as possible
+  desired.mult(-1);
+  //need steering force, which equals desired MINUS velocity
+  var steer = p5.Vector.sub(desired, this.vel);
+  steer.limit(this.maxforce);
+  return steer;
+
+  } else {
+    return createVector(0, 0);
+  }
+}
+
+  </script>
+</body>
+
+</html>
