@@ -12,9 +12,10 @@
       margin-top: 20vh!important;
     }
     canvas {
-      position:absolute;
-      top:5vh;
+      position:relative;
+      //top:5vh;
       left:0;
+      max-height:none;
     }
   </style>
 </head>
@@ -24,10 +25,10 @@
   <nav>
     <!-- <ul class="content__text"> -->
     <ul id="test">
-      <li id="test"><a href="#" class="active" target="_blank">info</a></li>
-      <li id="test2"><a href="projects.html" class="" target="_blank">projects</a></li>
-      <li id="test2"><a href="#" class="" target="_blank">cv</a></li>
-      <li id="test2"><a href="#" class="" target="_blank">contact</a></li>
+      <li id="test"><a href="index.html" class="">info</a></li>
+      <li id="test2"><a href="projects.html" class="">projects</a></li>
+      <li id="test2"><a href="emily_resume_2018.pdf" class="" target="_blank">cv</a></li>
+      <li id="test2"><a href="contact.html" class="active">contact</a></li>
     </ul>
   </nav>
   <!-- built files will be auto injected -->
@@ -53,7 +54,7 @@ function preload() {
   font = loadFont('Arial.otf');
 }
 function setup() {
-  createCanvas(800, 300);
+  createCanvas(windowWidth, windowHeight);
 //  background(51);
   textFont(font);
   // textSize(192);
@@ -61,7 +62,7 @@ function setup() {
   // noStroke();
   // text('contactt', 100, 200);
 
-  var points = font.textToPoints('projects', 100, 200, 192);
+  var points = font.textToPoints('emily.a.morgan00@gmail.com', windowWidth/10, windowHeight/2, 70);
   // console.log(points);
 
   for (var i = 0; i < points.length; i++) {
@@ -171,6 +172,7 @@ Vehicle.prototype.flee = function(target) {
     return createVector(0, 0);
   }
 }
+
 
   </script>
 </body>

@@ -1,80 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>workinprogress</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
-  </head>
-  <body>
-  <div class="app-wrap projects">
-    <div class="logo">LOGO</div>
-    <div class="info">INFO</div>
-    <div class="contact">CONTACT</div>
-    <div class="landing">
-      <div class="row middle-xs start-xs">
-        <h1 v-html="msg"></h1>
-      </div>
-    </div>
-    <div id="pinContainer">
-      <div id="slideContainer">
 
-        <div class="panel one row middle-xs">
-          <div class="col-xs-12 start-xs">
-            <h1 class="">Amaimmo</h1>
-          </div>
-          <div class="center-xs col-xs-12">
-            <img src="#" alt="test" />
-          </div>
-          <div class="col-xs-12 start-xs">
-            <p>Cutstom wordpress theme for condo management</p>
-            <p>Github link</p>
-          </div>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>workinprogress</title>
+  <link rel="stylesheet" type="text/css" href="stylev1.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
+  <style>
+    .contact-title {
+      margin-top: 20vh!important;
+    }
+    canvas {
+      position:relative;
+      //top:5vh;
+      left:0;
+      max-height:none;
+    }
+  </style>
+</head>
 
-        <div class="panel two row middle-xs">
-          <div class="col-xs-12 start-xs">
-            <h1 class="">Amaimmo</h1>
-          </div>
-          <div class="center-xs col-xs-12">
-            <img src="#" alt="test" />
-          </div>
-          <div class="col-xs-12 start-xs">
-            <p>Cutstom wordpress theme for condo management</p>
-            <p>Github link</p>
-          </div>
-        </div>
-
-        <div class="panel three row middle-xs">
-          <div class="col-xs-12 start-xs">
-            <h1 class="">Amaimmo</h1>
-          </div>
-          <div class="center-xs col-xs-12">
-            <img src="#" alt="test" />
-          </div>
-          <div class="col-xs-12 start-xs">
-            <p>Cutstom wordpress theme for condo management</p>
-            <p>Github link</p>
-          </div>
-        </div>
-
-        <div class="panel four row middle-xs">
-          <div class="col-xs-12 start-xs">
-            <h1 class="">Amaimmo</h1>
-          </div>
-          <div class="center-xs col-xs-12">
-            <img src="#" alt="test" />
-          </div>
-          <div class="col-xs-12 start-xs">
-            <p>Cutstom wordpress theme for condo management</p>
-            <p>Github link</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
+<body>
+  <div id="app"></div>
+  <nav>
+    <!-- <ul class="content__text"> -->
+    <ul id="test">
+      <li id="test"><a href="index.html" class="">info</a></li>
+      <li id="test2"><a href="projects.html" class="active">projects</a></li>
+      <li id="test2"><a href="emily_resume_2018.pdf" class="" target="_blank">cv</a></li>
+      <li id="test2"><a href="contact.html" class="">contact</a></li>
+    </ul>
+  </nav>
+  <!-- built files will be auto injected -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
@@ -87,32 +45,31 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+  <script>
+
+//TRIG VERSUS POLAR COORDINATES
+var r = 150;
+var a = 0.0;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+}
+
+function draw(){
+  background(0,255,0);
+
+  translate(width/2, height/2);
+  var x = r * cos(a);
+  var y = r * sin(a);
+  fill(255);
+  stroke(255);
+  line(0,0,x,y);
+  ellipse(x, y, 50, 50);
+
+  //x = r * cos
+};
+
+  </script>
 </body>
 
-<script>
-
-const initMagic = function () {
-  console.log('working');
-  var x = $(".one h1").offset();
-
-  // init controller
-  var controller = new ScrollMagic.Controller();
-  // define movement of panels
-  var wipeAnimation = new TimelineMax()
-    .to("#slideContainer", 3.5,   {x: "-100%"}).from("#slideContainer", 3.5,   {x: "100%"})
-
-  // create scene to pin and link animation
-  var scene = new ScrollMagic.Scene({
-      triggerElement: "#pinContainer",
-      triggerHook: "onLeave",
-      duration: "500%"
-    })
-    .setPin("#pinContainer")
-    .setTween(wipeAnimation)
-    .addTo(controller);
-
-}
-initMagic();
-
-
-</script>
+</html>
