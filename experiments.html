@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>workinprogress</title>
+  <link rel="stylesheet" type="text/css" href="stylev1.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
+  <style>
+    .contact-title {
+      margin-top: 20vh!important;
+    }
+    canvas {
+      position:relative;
+      //top:5vh;
+      left:0;
+      max-height:none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <nav>
+    <!-- <ul class="content__text"> -->
+    <ul id="test">
+      <li id="test"><a href="index.html" class="">info</a></li>
+      <li id="test2"><a href="projects.html" class="">projects</a></li>
+      <li id="test2"><a href="emily_resume_2018.pdf" class="" target="_blank">cv</a></li>
+      <li id="test2"><a href="contact.html" class="">contact</a></li>
+    </ul>
+  </nav>
+  <!-- built files will be auto injected -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/93/three.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
+  <script src="./anime.min.js"></script>
+  <script src="./charming.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+  <script>
+
+var amplitude = 50;
+var period = 100;
+var angle = 0;
+
+
+function setup() {
+createCanvas(windowWidth, windowHeight);
+}
+
+function draw() {
+background(255);
+translate(width/2, height/2);
+
+//angular velocity
+angle += 0.05;
+
+var x = amplitude * sin((frameCount/period) * TWO_PI);
+var x = amplitude * sin(angle);
+fill(127);
+stroke(0);
+line(0,0,x,0);
+ellipse(x, 0, 36, 36);
+
+}//end sketch
+
+
+
+  </script>
+</body>
+
+</html>
