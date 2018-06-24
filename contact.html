@@ -61,7 +61,12 @@ function setup() {
   // fill(255);
   // noStroke();
   // text('contactt', 100, 200);
-  var points = font.textToPoints('emily.a.morgan00@gmail.com', windowWidth/10, windowHeight/2, 70);
+//   var points = font.textToPoints('tra in', 100, 200, 192, {
+// sampleFactor: 0.25
+// });
+  var points = font.textToPoints('emily.a.morgan00@gmail.com', windowWidth/10, windowHeight/2, 70, {
+    sampleFactor: 1
+  });
   // console.log(points);
 
   for (var i = 0; i < points.length; i++) {
@@ -130,7 +135,7 @@ Vehicle.prototype.applyForce = function(f) {
 
 Vehicle.prototype.show = function() {
   stroke(0, 0, 0);
-  strokeWeight(8);
+  strokeWeight(2);
   point(this.pos.x, this.pos.y);
 }
 
