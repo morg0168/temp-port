@@ -47,29 +47,55 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
   <script>
 
-var amplitude = 50;
-var period = 100;
-var angle = 0;
+var amplitude = 100;
+// var period = 100;
+var angle = 1;
 
+var items = [];
+
+
+
+function Item(amplitude, angle) {
+  this.amplitude = amplitude;
+  this.angle = angle;
+  this.col = color(0);
+  this.changeColor = function () {
+  //  console.log('changecolors');
+    this.col = color(random(255), random(255), random(255));
+  }
+}
+
+Item.prototype.show = function(i) {
+  //angular velocity
+  this.angle += 0.01 * (i / 10);
+
+  var x = this.amplitude * sin(this.angle);
+  var y = this.amplitude * sin(this.angle);
+
+  fill(this.col);
+  //this.changeColor();
+  stroke(0);
+  line(1,0,x * i,y);
+  ellipse(x, y, i * 10, 36);
+}
 
 function setup() {
-createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight);
+
+  for (var i = 0; i < 4; i++) {
+    var item = new Item(100, 1);
+    items.push(item);
+  }
 }
 
 function draw() {
-background(255);
-translate(width/2, height/2);
-
-//angular velocity
-angle += 0.05;
-
-var x = amplitude * sin((frameCount/period) * TWO_PI);
-var x = amplitude * sin(angle);
-fill(127);
-stroke(0);
-line(0,0,x,0);
-ellipse(x, 0, 36, 36);
-
+  background(255);
+  translate(width/2, height/2);
+  for (var i = 0; i < items.length; i++){
+    var item = items[i];
+    item.show(i);
+    item.changeColor();
+  }
 }//end sketch
 
 
