@@ -220,11 +220,25 @@ h1 {
   padding: 1rem;
   background: black;
 }
-
+.proj-description {
+  color: white;
+  font-size: 4vw;
+  font-weight: 100;
+  text-align: left;
+  padding: 1rem;
+  text-transform: lowercase;
+  background: black;
+  margin-top:50px;
+  a {
+    display:block;
+    color:white;
+    text-decoration: underline;
+  }
+}
 nav {
+  position:fixed;
   width: 100%;
   background-color: white;
-  position: fixed;
   z-index: 999;
   font-size: 1rem;
   color: black;

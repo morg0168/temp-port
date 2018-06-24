@@ -26,7 +26,7 @@
     <!-- <ul class="content__text"> -->
     <ul id="test">
       <li id="test"><a href="index.html" class="">info</a></li>
-      <li id="test2"><a href="projects.html" class="">projects</a></li>
+      <li id="test2"><a href="projects.html" class="active">projects</a></li>
       <li id="test2"><a href="emily_resume_2018.pdf" class="" target="_blank">cv</a></li>
       <li id="test2"><a href="contact.html" class="">contact</a></li>
     </ul>
@@ -46,59 +46,109 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
   <script>
+'use strict';
+//TRIG VERSUS POLAR COORDINATES
+//start with polar to get x, y
+var r = 130;
+// var a = 0; //flat
+// var a = 0; //rotate -90 degrees
+// var a = -Math.PI/2; //rotate -90 degrees
+var a = 0; //rotate -90 degrees
+var aVel = 0.0;
+var aAcc = 0.001;
+var balls = [];
+var x = 0;
+var y = 0;
 
-var amplitude = 100;
-// var period = 100;
-var angle = 1;
-
-var items = [];
-
-
-
-function Item(amplitude, angle) {
-  this.amplitude = amplitude;
-  this.angle = angle;
-  this.col = color(0);
+function Ball(r, a, aVel, aAcc) {
+  this.r = r;
+  this.a = a; //rotate -90 degree
+  this.aVel = aVel;
+  this.aAcc = aAcc;
+  this.col = color(255);
+  this.x = 0;
+  this.y = 0;
   this.changeColor = function () {
   //  console.log('changecolors');
     this.col = color(random(255), random(255), random(255));
   }
+  this.revertColor = function () {
+  //  console.log('revertcolors');
+    this.col = color(255);
+  }
+  this.radius = 0;
+
+  // this.intersects = function(other) {
+  //   // console.log('checking');
+  //   var d = dist(this.x, this.y, other.x, other.y);
+  //   if (d < this.r + other.r) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  //
+  // }
 }
 
-Item.prototype.show = function(i) {
-  //angular velocity
-  this.angle += 0.01 * (i / 10);
-
-  var x = this.amplitude * sin(this.angle);
-  var y = this.amplitude * sin(this.angle);
-
+Ball.prototype.show = function(i) {
+  //console.log(y);
   fill(this.col);
-  //this.changeColor();
-  stroke(0);
-  line(1,0,x * i,y);
-  ellipse(x, y, i * 10, 36);
+  //fill(255);
+  stroke(255);
+  var x = r * cos(a / i);
+  var y = r * sin(a / i);
+
+  this.x = r * cos(a / i);
+  this.y = r * sin(a / i);
+
+//  line(0,0,x,y);
+  ellipse(x, y, 40, 40);
+  this.radius = 20;
+
+  a += aVel;
+  aVel += aAcc;
+  aVel = constrain(aVel,0,0.005);
+}
+
+Ball.prototype.intersects = function(other) {
+   var x1 = this.x;
+   var y1 = this.y;
+
+   var x2 = other.x;
+   var y2 = other.y;
+
+  var d = dist(x1, y1, x2, y2);
+  if (d < this.radius) {
+    return true
+  } else {
+    return false
+  }
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  for (var i = 0; i < 4; i++) {
-    var item = new Item(100, 1);
-    items.push(item);
+  for (var i = 0; i < 16; i++) {
+    var ball = new Ball((120 * i), i, i / 6, i * 0.001);
+    balls.push(ball);
   }
 }
 
-function draw() {
-  background(255);
+function draw(){
+  background(0,255,0);
   translate(width/2, height/2);
-  for (var i = 0; i < items.length; i++){
-    var item = items[i];
-    item.show(i);
-    item.changeColor();
+  for (var i = 0; i < balls.length; i++){
+    var ball = balls[i];
+    ball.show(i);
+    for (var j = 0; j < balls.length; j++) {
+        if (i !== j && balls[i].intersects(balls[j])) {
+          balls[i].changeColor();
+          balls[j].changeColor();
+        }
+    }
   }
-}//end sketch
 
-
+};
 
   </script>
 </body>

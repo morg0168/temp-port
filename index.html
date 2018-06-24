@@ -556,22 +556,21 @@
           }
         }
         this.reveal = function() {
-          this.DOM.title.letters.forEach((letter, pos) => {
-            var inc = 0,
-              max = 9999,
-              delay = 100; // 100 milliseconds
 
-              function revealLetters() {
-                if (letter.dataset.initial == letter.innerHTML) {
-                  this.complete = true;
-                  clearTimeout(revealLetters);
-                } else {
-                  letter.innerHTML = letter.dataset.initial;
-                  letter.style.color = '#000000';
-                setTimeout(revealLetters, 0);
-                }
-              }
-              setTimeout(revealLetters, 0 );
+          this.DOM.title.letters.forEach((letter, pos) => {
+          var that = this;
+          function revealLetters() {
+            //console.log(that.DOM.title.letters.length);
+              var checkingNum = getRandomInt(0, that.DOM.title.letters.length - 1);
+            //if (that.DOM.title.letterzps[checkingNum] !== undefined){
+               that.DOM.title.letters[checkingNum].innerHTML = that.DOM.title.letters[checkingNum].dataset.initial;
+               //that.DOM.title.letters[checkingNum].style.opacity = 0;
+               that.DOM.title.letters[checkingNum].style.color = '#000000';
+               that.DOM.title.letters[checkingNum].classList += " newclass ";
+              // clearTimeout(revealLetters);
+             //}
+           }
+          setTimeout(revealLetters, 10 * pos);
           });
         }
       }
@@ -585,11 +584,13 @@
 
     //window.addEventListener("scroll", function() {
       //alert('clicked');
-      $(window).on("scroll", function() {
-        if ($(window).scrollTop() > 150) {
-        window.entryObj.reveal();
-        }
-      });
+       $(window).on("click", function() {
+      //   if ($(window).scrollTop() > 150) {
+          if (entryObj){
+              entryObj.reveal();
+          }
+      //   }
+       });
 
 
     //});
@@ -607,6 +608,12 @@
         scaleY: [0, 1],
         opacity: [0.5, 1],
         easing: "easeOutExpo",
+        duration: 500
+      })
+      .add({
+        targets: '.newclass',
+        opacity: [0, 1],
+        // easing: "easeOutExpo",
         duration: 500
       })
       .add({
