@@ -20,8 +20,8 @@
 
     #container {
       position: relative;
-      height: 100vh !important;
-      width: 100vw;
+      /* height: 100vh !important;
+      width: 100vw; */
       float: none;
 
     }
@@ -45,6 +45,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/93/three.js"></script>
+  <script src="./OrbitControls.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
   <script src="./anime.min.js"></script>
@@ -59,9 +60,21 @@
 
     //THREE JS CONFIG PRELOADING
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 1000);
+    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000);
+    // CAMERA
+    //var camera = new THREE.PerspectiveCamera(75, 320 / 240, 1, 1000);
+    //camera.position.set(250, 200, 250);
+
+    camera.lookAt(0, 0, 0);
+
+// add controls for the camera
+    var controls = new THREE.OrbitControls(camera, game );
+    controls.target.set( -window.innerWidth / 10, 0, 1000 );
+    controls.minDistance = 0;
+    controls.maxDistance = 500;
+
     // var controls = new THREE.OrbitControls( camera );
-    var distance = 1000;
+    var distance = 1100;
     var raycaster;
     var projector;
     var container = document.getElementById('container');
@@ -118,7 +131,7 @@
         particle.position.x = 0;
         particle.position.y = 0;
         particle.position.z = 0;
-        particle.scale.x = particle.scale.y = particle.scale.z = 100;
+        particle.scale.x = particle.scale.y = particle.scale.z = 30;
         this.add(particle);
         //var box = new THREE.Box3().setFromObject( particle );
         //console.log( box.min, box.max, box.getSize() );
@@ -148,14 +161,14 @@
         var dz = foo(z1, z2);
         //console.log(x1, x2, d);
 
-        if (dh < 200 && d < 200 && dz < 200) {
+        if (dh < 100 && d < 100 && dz < 100) {
           return true
         } else {
           return false
         }
       }
 
-      for (var i = 0; i < 15; i++) {
+      for (var i = 0; i < 150; i++) {
         var asteroid = new Asteroid(i);
         Asteroids.push(asteroid);
 
@@ -165,7 +178,7 @@
         var positionMinX = game.domElement.clientWidth / 2;
         asteroid.position.y = getRandomInt(positionMaxY, (positionMinY));
         asteroid.position.x = getRandomInt(positionMaxX, (positionMinX));
-        asteroid.position.z = getRandomInt(-5, 1000);
+        asteroid.position.z = getRandomInt(0, 1500);
         asteroid.rotation.y = Math.PI * 10 - i;
         for (var j = 0; j < Asteroids.length; j++) {
           if (i !== j && Asteroids[i].intersects(Asteroids[j])) {
@@ -193,11 +206,20 @@
       for (var i = 0; i < Asteroids.length; i++) {
         var object = Asteroids[i];
         object.rotation.y += Math.PI / 1000;
-        // if (i < 20) {
-        // object.rotation.y -= Math.PI / 40;
-        // }
+        object.rotation.z += 0;
+        object.position.x += 0.15;
+        if (object.position.x > game.domElement.clientWidth / 2) {
+          console.log('past');
+          object.position.x = -object.position.x;
+        //object.rotation.y -= Math.PI / 1000;
+        }
+        if (object.position.z > 900) {
+          //object.position.z = 100;
+          console.log(object.position.z);
+        }
+
       }
-      // controls.update();
+      controls.update();
       game.render(scene, camera);
     }
 
