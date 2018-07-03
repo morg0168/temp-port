@@ -61,7 +61,7 @@
 
     //THREE JS CONFIG PRELOADING
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000);
+    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 3000);
     // CAMERA
     //var camera = new THREE.PerspectiveCamera(75, 320 / 240, 1, 1000);
     //camera.position.set(250, 200, 250);
@@ -70,7 +70,7 @@
 
 // add controls for the camera
     var controls = new THREE.OrbitControls(camera, game );
-    controls.target.set( -window.innerWidth / 10, 0, 1000 );
+    controls.target.set( window.innerWidth / 10, 0, 1000 );
     controls.minDistance = 0;
     controls.maxDistance = 500;
 
@@ -137,17 +137,19 @@
         Aster.position.y = getRandomInt(positionMaxY, (positionMinY));
         Aster.position.x = getRandomInt(positionMaxX, (positionMinX));
         Aster.position.z = getRandomInt(0, 1500);
-        Aster.rotation.y = Math.PI * 10 - i;
+
+        Aster.rotation.y = getRandomInt(positionMaxY, (positionMinY));
+        Aster.rotation.x = getRandomInt(positionMaxX, (positionMinX));
+        Aster.rotation.z = getRandomInt(0, 1500);
+        //Aster.rotation.y = 100;
         for (var j = 0; j < Asteroids.length; j++) {
           //if (i !== j && Asteroids[i].intersects(Asteroids[j])) {
+          // console.log('splice');
             Asteroids.splice(i, Asteroids[i]);
           //  scene.remove(Asteroids[i]);
         //  }
 
         }
-
-
-
         // var sphere = new THREE.SphereGeometry();
         // var material = new THREE.MeshPhongMaterial({
         //   color: 0xeee8f3,
@@ -202,7 +204,7 @@
       var positionMaxX = -game.domElement.clientWidth / 2;
       var positionMinX = game.domElement.clientWidth / 2;
 
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 100; i++) {
 
         var loader = new THREE.JDLoader(textureManager);
         loader.load("asteroid1.JD", function (data) {
@@ -214,10 +216,12 @@
                 map: texture
             , });
               var Aster = new THREE.SkinnedMesh(data.geometries[0], material);
-              Aster.scale.x = Aster.scale.y = Aster.scale.z = 100;
+              Aster.scale.x = Aster.scale.y = Aster.scale.z = getRandomInt(10, 100);
               Aster.translation = THREE.GeometryUtils.center(data.geometries[0]);
-              //Aster.position.set(0, 0, 0);
               Aster.name = 'Aster';
+              Aster.rotX = 0.001;
+              Aster.rotY = 0.002;
+              Aster.rotZ = 0.005;
               var asteroid = new Asteroid(i, Aster);
               Asteroids.push(asteroid);
         });
@@ -244,18 +248,32 @@
 
       for (var i = 0; i < Asteroids.length; i++) {
         var object = Asteroids[i];
-        object.rotation.y += Math.PI / 1000;
-        object.rotation.z += 0;
+        //var vectorAxis = new THREE.Quaternion().setFromAxisAngle( object.children[0].position, Math.PI / 2 );
+        //console.log(object.children[0].position);
+        // object.children[0].rotation.y = new THREE.Euler().setFromQuaternion( vectorAxis );
+
+        object.children[0].rotation.x += object.children[0].rotX;
+        object.children[0].rotation.y += object.children[0].rotY;
+        object.children[0].rotation.z += object.children[0].rotZ;
+
+
+        //object.rotation.y += Math.PI / 50000 * (i + 1);
+        //object.rotation.x += Math.PI / 10000 * i;
+        //object.rotation.z += Math.PI / 10000 * i;
+        //object.rotation.z += 0;
+
 
         if (object.position.x > game.domElement.clientWidth / 2) {
+          //object.position.x = 0;
         }
         if (object.position.z > 900) {
+          //object.position.z = 0;
         }
 
       }
       controls.update();
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = 0.1;
+    //  controls.autoRotate = true;
+      //controls.autoRotateSpeed = 0.1;
       game.render(scene, camera);
     }
 
