@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>workinprogress</title>
+  <!-- <link rel="stylesheet" type="text/css" href="stylev1.css"> -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
+  <style>
+    .contact-title {
+      margin-top: 20vh !important;
+    }
+
+    canvas {
+      position: relative; //top:5vh;
+      left: 0;
+      max-height: none;
+      visibility: visible !important;
+    }
+
+    #container {
+      position: relative;
+      height: 100vh !important;
+      width: 100vw;
+      float: none;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+  <nav>
+    <!-- <ul class="content__text"> -->
+    <ul id="test">
+      <li id="test"><a href="index.html" class="">info</a></li>
+      <li id="test2"><a href="projects.html" class="active">projects</a></li>
+      <li id="test2"><a href="emily_resume_2018.pdf" class="" target="_blank">cv</a></li>
+      <li id="test2"><a href="contact.html" class="">contact</a></li>
+    </ul>
+  </nav>
+  <!-- built files will be auto injected -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi-filters/1.0.8/filters.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/93/three.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script> -->
+  <script src="./anime.min.js"></script>
+  <script src="./charming.min.js"></script>
+    <script src="./p5.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script> -->
+  <script>
+    //'use strict';
+    var potus;
+    var counts = {};
+
+    function preload() {
+      potus = loadJSON('potus.json');
+    //  console.log(potus);
+    }
+
+    function setup() {
+     console.log(potus.tweets);
+      createCanvas(600, 400);
+      //console.log(potus);
+      // console.log(potus.tweets.length);
+
+
+      // var tweets = potus.tweets;
+      // for (var i = 0; tweets.length; i++) {
+      //   // var tweet = tweets[i].text;
+      //   //console.log(tweet);
+      //   //document.getElementById('container').innerHTML += tweet + '<br/>' + '<br/>';
+      //   var tweet = tweets[i].timestamp;
+      //   // console.log(tweets[i]);
+      //   // console.log(tweet);
+      //   var date = new Date(tweet);
+      //   var month = date.getMonth();
+      //   var year = date.getFullYear();
+      //   //Associate the number of tweets that month with a key.
+      //   var key = month + '/' + year;
+      //
+      //   //counting everytime a tweet has the same month and year
+      //   if (counts.hasOwnProperty(key)) {
+      //     counts[key]++;
+      //   } else {
+      //     //pushing the key into the object if it doesn't exist
+      //     counts[key] = 1;
+      //   }
+      //   //background(0);
+      //   //console.log(counts);
+      //   var months = Object.keys(counts);
+      //   //months.reverse();
+      //
+      //   for (var i = 0; i < months.length; i++) {
+      //   //  var w = width / months.length;
+      //     //var h = 100;
+      //     //  fill();
+      //     //rect(i * w, height - h, w-1, h);
+      //
+      //   }
+      //   //console.log(months);
+      // }
+
+    }
+
+    function draw() {
+      createCanvas(600, 400);
+      background(0);
+    }
+  </script>
+</body>
+
+</html>
