@@ -109,6 +109,14 @@ Christian currently lives in Montreal, QC, Canada. He enjoys film, electronic mu
     // }
 
     controls.maxDistance = 1500;
+    controls.enablePan = false;
+    controls.enableZoom = true;
+    controls.enableDamping = true;
+    // controls.minPolarAngle = 0.8;
+    // controls.maxPolarAngle = 2.4;
+    controls.dampingFactor = 0.07;
+    controls.rotateSpeed = 0.07;
+
 
     // var controls = new THREE.OrbitControls( camera );
     var distance = 1100;
@@ -320,7 +328,7 @@ Christian currently lives in Montreal, QC, Canada. He enjoys film, electronic mu
       }
       controls.update();
      controls.autoRotate = true;
-      controls.autoRotateSpeed = 0.05;
+      controls.autoRotateSpeed = 0.005;
       game.render(scene, camera);
     }
 
